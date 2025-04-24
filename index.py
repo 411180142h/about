@@ -107,3 +107,36 @@ def read():
 		return "資料庫更新"
 	if __name__ =="__main__":
 	app.run()
+
+
+
+@app.route("DispMovie", methods=["GET", "POST"])
+def DispMovie():
+	if request.method == "POST":
+		keyword = request.form["MovieKeyword"]
+		
+	else:
+		return render_template("account.html")
+
+
+	db = firestore.client()
+	docs = db.collection("簡宏宥").order_by("showDate").get()
+	info = ""
+	keyword = "人"
+
+	for item in docs:
+			if keyword in item. to_dict()["title"]
+			info += "片名:<a href=" + item.to_dict()["hyperlink"] + ">" + item.to_dict()["title"]
+			info += "介紹" + item.to_dict()["hyperlink"] + "<br>"
+			info += "海報:<img src=" + item.to_dict()["picture"] + ">  </img> <br>"
+			info += "片長" + item.to_dict()["showLength"] + "<br>"
+			info += "上映日期" + item.to_dict()["showLength"] + "<br><br>"
+	return info
+
+else:
+	return render_template("movie.html")
+
+
+
+if __name__ == "__main__":
+	app.run()
