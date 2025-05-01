@@ -209,6 +209,22 @@ def webhook():
 		rate = req.get("queryResult").get("parameters").get("rate")
 		info = "您選擇的電影分級是:" +　rate
 
+		db = firestore.client()
+		collection_ref = db.collection("電影含分級")
+		docs = collection_ref.get()
+		result = ""
+		for doc in docs:
+			dict = doc.to_dict()
+			if rate in dict["rate"]:
+				result += "片名:" + dict["title"] + "\n"
+				result += "介紹:" + dict["hyperlink"] + "\n\n"
+
+		if result == "":
+			result = ", 抱歉料庫目前無此分級電影"
+		else:
+			result = ", 相關電影:" + result
+		info == result
+
 	return make_response(jsonify({"fulfillmentText": "我是簡宏宥聊天機器人"}))
 
 
