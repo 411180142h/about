@@ -196,8 +196,8 @@ def rate():
 
 
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
+@app.route("/webhook4", methods=["POST"])
+def webhook4():
 	# build a request object
 	req = request.get_json(force=True)
 	# fetch queryResult from json
@@ -224,6 +224,11 @@ def webhook():
 		else:
 			result = ", 相關電影:" + result
 		info == result
+
+	elif (action == "MovieDetail"):
+			filmq =  req.get("queryResult").get("parameters").get("filmq")
+			keyword =  req.get("queryResult").get("parameters").get("any")
+			info = "我是簡宏宥開發的電影聊天機器人，您要查詢電影的" + filmq + "，關鍵字是：" + any 
 
 	return make_response(jsonify({"fulfillmentText": "我是簡宏宥聊天機器人"}))
 
