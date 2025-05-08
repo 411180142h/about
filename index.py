@@ -22,6 +22,12 @@ def index():
 	homepage += "<br><a href=/read>讀取Firestore資料</a><br>"
 	homepage += "<h1>08ppt準備(電影含分級)</h1>"
 	homepage += "<br><a href=/movie_rate>讀取開眼即將上映電影(含分級資訊),寫入Firestore</a><br>"
+	
+	homepage += '<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>'
+	homepage += '</script><df-messenger intent="WELCOME" chat-title="MISagent簡宏宥"'
+	homepage += 'agent-id="752b836d-e6ed-40ca-9b5c-053384196fd5"'
+	homepage += 'language-code="zh-tw" ></df-messenger>'
+
 	return homepage
 
 
