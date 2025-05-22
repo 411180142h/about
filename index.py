@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-	homepage = "<h1>簡宏宥Python網頁(firestore) AI webhook6</h1>"
+	homepage = "<h1>簡宏宥Python網頁(firestore) AI5 webhook6</h1>"
 	homepage += "<a href=/mis>MIS</a><br>"
 	homepage += "<a href=/today>顯示日期時間</a><br>"
 	homepage += "<a href=/welcome?nick=hongyu>傳送使用者暱稱</a><br>"
@@ -281,6 +281,13 @@ def webhook6():
 	return make_response(jsonify({"fulfillmentText": "我是簡宏宥聊天機器人"}))
 
 
+elif (action == "input.unknown"):
+		q =  req["queryResult"]["queryText"]
+		api_key = os.getenv("API_KEY")
+		genai.configure(api_key = api_key)
+		model = genai.GenerativeModel('gemini-2.0-flash', generation_config = {"max_output_tokens": 128})
+		response = model.generate_content(info)
+		info =  response.text
 
 @app.route("/AI")
 def AI():
@@ -309,13 +316,6 @@ def webhook7():
 
 	return make_response(jsonify({"fulfillmentText": info}))
 
-elif (action == "input.unknown"):
-		info =  req["queryResult"]["queryText"]
-		api_key = os.getenv("API_KEY")
-		genai.configure(api_key = api_key)
-		model = genai.GenerativeModel('gemini-2.0-flash', generation_config = {"max_output_tokens": 128})
-		response = model.generate_content(info)
-		info =  response.text
 
 
 if __name__ == "__main__":
