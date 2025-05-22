@@ -277,6 +277,32 @@ def AI():
 	response = model.generate_content('我想查詢靜宜大學資管系的評價？')
 	return response.text
 
+@app.route("/webhook7", methods=["POST"])
+def webhook7():
+	 # build a request object
+	req = request.get_json(force=True)
+	# fetch queryResult from json
+	action =  req.get("queryResult").get("action")
+	#msg =  req.get("queryResult").get("queryText")
+	#info = "動作：" + action + "； 查詢內容：" + msg
+	if (action == "rateChoice"):
+…
+	elif (action == "MovieDetail"): 
+…
+	elif (action == "CityWeather"):
+…
+	elif (action == "input.unknown"):
+		info =  req["queryResult"]["queryText"]
+
+	return make_response(jsonify({"fulfillmentText": info}))
+
+elif (action == "input.unknown"):
+		info =  req["queryResult"]["queryText"]
+		api_key = os.getenv("API_KEY")
+		genai.configure(api_key = api_key)
+		model = genai.GenerativeModel('gemini-2.0-flash', generation_config = {"max_output_tokens": 128})
+		response = model.generate_content(info)
+		info =  response.text
 
 
 if __name__ == "__main__":
