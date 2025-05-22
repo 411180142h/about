@@ -269,7 +269,13 @@ def webhook6():
 
 	return make_response(jsonify({"fulfillmentText": "我是簡宏宥聊天機器人"}))
 
-
+@app.route("/AI")
+def AI():
+	api_key = 'AIzaSyBQSL9nyxSfeEqN5rlFX9OoxtQbIf7P-H8'
+	genai.configure(api_key = api_key)
+	model = genai.GenerativeModel('gemini-2.0-flash')
+	response = model.generate_content('我想查詢靜宜大學資管系的評價？')
+	return response.text
 
 
 
