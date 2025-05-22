@@ -9,24 +9,35 @@ firebase_admin.initialize_app(cred)
 from flask import Flask,render_template,request,make_response, jsonify
 from datetime import datetime, timezone, timedelta
 
+import google.generativeai as genai
+import os
+import google.generativeai as genai
+
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-	homepage = "<h1>簡宏宥Python網頁(時間+8), webhook2</h1>"
+	homepage = "<h1>簡宏宥Python網頁(firestore) AI webhook6</h1>"
 	homepage += "<a href=/mis>MIS</a><br>"
 	homepage += "<a href=/today>顯示日期時間</a><br>"
 	homepage += "<a href=/welcome?nick=hongyu>傳送使用者暱稱</a><br>"
 	homepage += "<a href=/account>網頁表單傳值</a><br>"
 	homepage += "<a href=/account>宏宥簡介網頁</a><br>"
 	homepage += "<br><a href=/read>讀取Firestore資料</a><br>"
-	homepage += "<h1>08ppt準備(電影含分級)</h1>"
-	homepage += "<br><a href=/movie_rate>讀取開眼即將上映電影(含分級資訊),寫入Firestore</a><br>"
+	homepage += "<a href=/movie_read>讀取開眼即將上映影片, 寫入Firestore</a><br>"
+	homepage += "<a href=/delete>刪除Firestore資料</a><br>"
+	homepage += "<a href=/searchQ>查詢Firestore資料</a><br>"
+	homepage += "<a href=/searchtraffic>查詢交通</a><br>"
+	homepage += "<a href=/movie_rate>讀取開眼即將上映影片(含分級及最新更新日期)存到資料庫</a><br>"
 	
 	homepage += '<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>'
+	homepage += '<df-messenger'
+	homepage += 'intent="WELCOME"'
+	homepage += 'chat-title= "簡宏宥的聊天機器人"'
 	homepage += '</script><df-messenger intent="WELCOME" chat-title="MISagent簡宏宥"'
 	homepage += 'agent-id="752b836d-e6ed-40ca-9b5c-053384196fd5"'
 	homepage += 'language-code="zh-tw" ></df-messenger>'
+	homepage += '></df-messenger>'
 
 	return homepage
 
@@ -269,9 +280,11 @@ def webhook6():
 
 	return make_response(jsonify({"fulfillmentText": "我是簡宏宥聊天機器人"}))
 
+
+
 @app.route("/AI")
 def AI():
-	api_key = 'AIzaSyBQSL9nyxSfeEqN5rlFX9OoxtQbIf7P-H8'
+	api_key = 'API_KEY'
 	genai.configure(api_key = api_key)
 	model = genai.GenerativeModel('gemini-2.0-flash')
 	response = model.generate_content('我想查詢靜宜大學資管系的評價？')
